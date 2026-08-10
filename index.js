@@ -10,12 +10,15 @@ app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-    executablePath: '/usr/bin/chromium-browser', // Ruta para Linux en Discloud
-    headless: true,
-    args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu'
-    ]
-}
+        headless: true, // ¡DEBE SER TRUE!
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process'
+        ]
+    }
+});
