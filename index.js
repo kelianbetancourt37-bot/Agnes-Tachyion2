@@ -1,6 +1,6 @@
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal'); // <-- SOLO DEBE ESTAR UNA VEZ
+const qrcode = require('qrcode-terminal');
 const path = require('path');
 
 const app = express();
@@ -30,6 +30,24 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
     console.log('¡Bot conectado exitosamente!');
+});
+
+// ==========================================
+// AQUÍ ES DONDE EL BOT LEE Y RESPONDE MENSAJES
+// ==========================================
+client.on('message_create', async (msg) => {
+    // Imprime en la consola para confirmar que Render recibe los mensajes
+    console.log(`Mensaje recibido: ${msg.body}`);
+
+    // Comando .menu
+    if (msg.body === '.menu') {
+        await msg.reply('🤖 *MENÚ PRINCIPAL*\n\n1. Hola - Saludo\n2. .ping - Test de conexión');
+    }
+
+    // Comando .ping
+    if (msg.body === '.ping') {
+        await msg.reply('pong 🏓');
+    }
 });
 
 client.initialize();
