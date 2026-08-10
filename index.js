@@ -32,21 +32,27 @@ client.on('ready', () => {
     console.log('¡Bot conectado exitosamente!');
 });
 
-// ==========================================
-// AQUÍ ES DONDE EL BOT LEE Y RESPONDE MENSAJES
-// ==========================================
-client.on('message_create', async (msg) => {
-    // Imprime en la consola para confirmar que Render recibe los mensajes
-    console.log(`Mensaje recibido: ${msg.body}`);
+// ESCUCHAMOS TANTO 'message' COMO 'message_create' PARA ASEGURAR GRUPOS Y CHATS DIRECTOS
+const handleMessage = async (msg) => {
+    // Ver lo que entra en los Logs de Render
+    console.log(`📩 Mensaje recibido de ${msg.from}: "${msg.body}"`);
 
-    // Comando .menu
-    if (msg.body === '.menu') {
-        await msg.reply('🤖 *MENÚ PRINCIPAL*\n\n1. Hola - Saludo\n2. .ping - Test de conexión');
-    }
+    const texto = msg.body.trim().toLowerCase();
 
-    // Comando .ping
-    if (msg.body === '.ping') {
+    if (texto === '.menu') {
+        await msg.reply('🤖 *MENÚ PRINCIPAL*\n\n1. .ping - Test de conexión\n2. .hola - Saludo');
+    } else if (texto === '.ping') {
         await msg.reply('pong 🏓');
+    } else if (texto === '.hola') {
+        await msg.reply('¡Hola! El bot te responde correctamente.');
+    }
+};
+
+client.on('message', handleMessage);
+client.on('message_create', async (msg) => {
+    // Responder cuando el propio número del bot manda el mensaje en un grupo
+    if (msg.fromMe) {
+        await handleMessage(msg);
     }
 });
 
