@@ -32,27 +32,18 @@ client.on('ready', () => {
     console.log('¡Bot conectado exitosamente!');
 });
 
-// ESCUCHAMOS TANTO 'message' COMO 'message_create' PARA ASEGURAR GRUPOS Y CHATS DIRECTOS
-const handleMessage = async (msg) => {
-    // Ver lo que entra en los Logs de Render
-    console.log(`📩 Mensaje recibido de ${msg.from}: "${msg.body}"`);
+// Usamos message_create para interceptar TODOS los mensajes
+client.on('message_create', async (msg) => {
+    console.log(`Mensaje detectado: "${msg.body}" de ${msg.from}`);
 
     const texto = msg.body.trim().toLowerCase();
 
     if (texto === '.menu') {
-        await msg.reply('🤖 *MENÚ PRINCIPAL*\n\n1. .ping - Test de conexión\n2. .hola - Saludo');
-    } else if (texto === '.ping') {
-        await msg.reply('pong 🏓');
-    } else if (texto === '.hola') {
-        await msg.reply('¡Hola! El bot te responde correctamente.');
+        await client.sendMessage(msg.from, '🤖 *MENÚ DEL BOT*\n\n1. .ping\n2. .hola');
     }
-};
 
-client.on('message', handleMessage);
-client.on('message_create', async (msg) => {
-    // Responder cuando el propio número del bot manda el mensaje en un grupo
-    if (msg.fromMe) {
-        await handleMessage(msg);
+    if (texto === '.ping') {
+        await client.sendMessage(msg.from, 'pong 🏓');
     }
 });
 
