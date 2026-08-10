@@ -1,3 +1,7 @@
-git add .
-git commit -m "Agregado qrcode-terminal"
-git push
+{
+  "dependencies": {
+    "express": "^5.2.1",
+    "whatsapp-web.js": "^1.34.7",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
