@@ -24,9 +24,21 @@ const client = new Client({
     }
 });
 
+// Asegúrate de importar qrcode-terminal al inicio
+const qrcode = require('qrcode-terminal');
+
+// ... tu configuración del cliente ...
+
+// EVENTO PARA GENERAR Y MOSTRAR EL QR
 client.on('qr', (qr) => {
-    console.log('--- ESCANEA ESTE CÓDIGO QR ---');
+    console.log('\n========================================');
+    console.log('ESCANEA ESTE CÓDIGO QR CON TU WHATSAPP:');
+    console.log('========================================\n');
     qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+    console.log('¡Bot conectado y listo para usar!');
 });
 
 client.on('ready', () => {
