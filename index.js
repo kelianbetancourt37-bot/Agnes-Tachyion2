@@ -1,6 +1,6 @@
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
+const qrcode = require('qrcode-terminal'); // <-- SOLO DEBE ESTAR UNA VEZ
 const path = require('path');
 
 const app = express();
@@ -13,7 +13,6 @@ const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        // RUTA CORRECTA APUNTANDO A LA CARPETA LOCAL:
         executablePath: path.join(__dirname, 'chrome', 'chrome', 'linux-146.0.7680.31', 'chrome-linux64', 'chrome'),
         args: [
             '--no-sandbox',
@@ -24,21 +23,9 @@ const client = new Client({
     }
 });
 
-// Asegúrate de importar qrcode-terminal al inicio
-const qrcode = require('qrcode-terminal');
-
-// ... tu configuración del cliente ...
-
-// EVENTO PARA GENERAR Y MOSTRAR EL QR
 client.on('qr', (qr) => {
-    console.log('\n========================================');
-    console.log('ESCANEA ESTE CÓDIGO QR CON TU WHATSAPP:');
-    console.log('========================================\n');
+    console.log('--- ESCANEA ESTE CÓDIGO QR ---');
     qrcode.generate(qr, { small: true });
-});
-
-client.on('ready', () => {
-    console.log('¡Bot conectado y listo para usar!');
 });
 
 client.on('ready', () => {
